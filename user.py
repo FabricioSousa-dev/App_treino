@@ -18,3 +18,4 @@ print("Usuarios cadastrados:")
 
 for i, user in enumerate(usuarios,start=1):
     print(f"{i} {user}")
+#test
