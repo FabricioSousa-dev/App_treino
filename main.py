@@ -1,2 +1,6 @@
+
+
+import user
+
 def main():
-    print("Hello World")
+    user.main()

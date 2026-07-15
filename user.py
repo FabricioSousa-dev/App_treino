@@ -1,21 +1,24 @@
-usuarios = list()
+user = dict()
+person = list()
+
+
 
 while True:
-    u = str(input("Digite o seu nome: "))
+        user['Nome'] = input("Enter your name: ").upper().strip()
+        user['Sobrenome'] = input("Enter your last name: ").upper().strip()
+        user['Idade'] = input("Enter your age: ").strip()
+        user['Peso'] = input("Enter your weight: ").strip()
+        user['Altura'] = input("Enter your height: ").strip()
 
-    opcao = " "
-    while not u.strip() or not u.isalpha():
-        print("Nome invalido,use letras!")
-        u = str(input("Digite o seu nome: "))
+        opc = ''
+        while opc not in 'SN':
+               opc = input("Do you want to continue? [S/N] ").upper().strip()[0]
+        if opc == 'N':
+               break
+        person.append(user.copy()) 
 
-    print("Olá {}!".format(u))
-    opcao = str(input("Deseja cadastrar outro usuario? (s/n): "))
 
-    if opcao.lower() != "s":
-        break
-print("Usuario cadastrado com sucesso!")
-print("Usuarios cadastrados:")
 
-for i, user in enumerate(usuarios,start=1):
-    print(f"{i} {user}")
-#test
+print("Position   | Name | Last Name | Age | Weight | Height")
+for k, v in enumerate(person):
+      print(f"{k+1:<10} | {v['Nome']:<4} | {v['Sobrenome']:<9} | {v['Idade']:<3} | {v['Peso']:<6} | {v['Altura']:<6}")
