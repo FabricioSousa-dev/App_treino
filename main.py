@@ -7,4 +7,8 @@ def main():
     print("Tabelas criadas com sucesso!")
 
     print("Adicionando usuário...")
-    
+    adicionar_usuario("João", 25)
+    print("Usuário adicionado com sucesso!")
+
+if __name__ == '__main__':
+    main()

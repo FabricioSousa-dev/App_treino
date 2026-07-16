@@ -13,7 +13,7 @@ def criar_tabelas():
                    )
                    ''')
     
-    Cursor.execute('''
+    cursor.execute('''
             CREATE TABLE IF NOT EXISTS exercises (
                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                    USER_id INTEGER NOT NULL,
