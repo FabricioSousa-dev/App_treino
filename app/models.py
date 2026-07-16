@@ -42,3 +42,16 @@ def adicionar_usuario(nome, sobrenome, idade, peso, altura):
     
     conn.commit()
     conn.close()
+
+def adicionar_exercicio(user_id, nome_exercicio, series):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+                   INSERT INTO exercises (user_id, nome_exercicio, series)
+                   VALUES (?, ?, ?)
+                   ''', (user_id, nome_exercicio, series))
+    conn.commit()
+    conn.close()
+
+    

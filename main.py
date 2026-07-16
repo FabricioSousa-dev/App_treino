@@ -1,5 +1,5 @@
 import os
-from app.models import criar_tabelas, adicionar_usuario
+from app.models import criar_tabelas, adicionar_usuario, adicionar_exercicio
 
 def exibir_menu():
     print("\n + ""=" * 30)
@@ -7,6 +7,8 @@ def exibir_menu():
     print("="*30)
     print("1.criar tabelas")
     print("2.Listar usuários cadastrados")
+    print("3.cadastrar exercícios")
+    print("4.Listar exercícios cadastrados")
     print("0.Sair do sistema")
     print("="*30)
 
@@ -45,6 +47,22 @@ def main():
             limpar_tela()
             print("Saindo do sistema...")
             break
+        elif opcao == "3":
+            limpar_tela()
+            print("---CADASTRAR NOVO EXERCÍCIO---")
+            user_id = input("Digite o ID do usuário: ")
+            nome_exercicio = input("Qual é o nome do exercício:  ")
+            series = input("Quantas séries você deseja cadastrar:  ")
+            repeticoes = input("Quantas repetições por série:  ")
+
+            if user_id.isdigit() and series.isdigit() and repeticoes.isdigit():
+                adicionar_exercicio(int(user_id), nome_exercicio, int(series), int(repeticoes))
+            else:
+                print("\n Erro: ID do usuário, séries e repetições devem ser números inteiros.")
+        elif opcao == "4":
+            print("Aind vou implementar a busca no banco!")
+
+
         else:
             limpar_tela()
             print("Opção inválida! digite uma opção válida,0, 1 ou 2.")
