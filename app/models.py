@@ -23,5 +23,15 @@ def criar_tabelas():
                    ''')
     conn.commit()
     conn.close()
-    
+
+
+def adicionar_usuario(nome, idade):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('INSERT INTO users (nome, idade) VALUES (?,?)', (nome, idade))
+
+    conn.commit()
+    conn.close()
+
 
