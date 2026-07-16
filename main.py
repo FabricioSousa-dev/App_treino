@@ -5,7 +5,7 @@ def exibir_menu():
     print("\n + ""=" * 30)
     print("🏋️  SISTEMA APP TREINO 🏋️")
     print("="*30)
-    print("1.criar tabelas")
+    print("1.criar Usuário")
     print("2.Listar usuários cadastrados")
     print("3.Listar exercícios cadastrados")
     print("0.Sair do sistema")
@@ -49,6 +49,7 @@ def main():
                     print("\nErro: número de séries inválido!")
             else:
                 print("\n Erro: Idade inválida! Digite um número inteiro para a idade.")
+                
         elif opcao == "2":
             limpar_tela()
             print("---Lista de usuários cadastrados---")
