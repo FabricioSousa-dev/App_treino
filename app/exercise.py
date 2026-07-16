@@ -1,4 +1,4 @@
-def formatar_nome_exercisio(nome):
+def formatar_nome_exercicio(nome):
     return nome.strip().title()
 
 def validar_series(series):
