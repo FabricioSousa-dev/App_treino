@@ -7,8 +7,7 @@ def exibir_menu():
     print("="*30)
     print("1.criar tabelas")
     print("2.Listar usuários cadastrados")
-    print("3.cadastrar exercícios")
-    print("4.Listar exercícios cadastrados")
+    print("3.Listar exercícios cadastrados")
     print("0.Sair do sistema")
     print("="*30)
 
@@ -34,9 +33,20 @@ def main():
             idade = input(f"Digite a sua idade {nome} {sobrenome}:  ")
             peso = input(f"Digite o seu peso {nome} {sobrenome}:  ")
             altura = input(f"Digite a sua altura {nome} {sobrenome}:  ")
-             
+
             if idade.isdigit():
-                adicionar_usuario(nome, sobrenome, int(idade), float(peso), float(altura))
+                user_id = adicionar_usuario(nome, sobrenome, int(idade), float(peso), float(altura))
+
+                print(f"\nUsuário {nome} cadastrado com sucesso!")
+                print("---CADASTRAR EXERCÍCIO PARA ESSE USUÁRIO---")
+                nome_exercicio = input("Digite o nome do exercício: ")
+                series = input("Digite o número de séries: ")
+
+                if series.isdigit():
+                    adicionar_exercicio(user_id, nome_exercicio, int(series))
+                    print("Exercício cadastrado com sucesso!")
+                else:
+                    print("\nErro: número de séries inválido!")
             else:
                 print("\n Erro: Idade inválida! Digite um número inteiro para a idade.")
         elif opcao == "2":
@@ -49,17 +59,8 @@ def main():
             break
         elif opcao == "3":
             limpar_tela()
-            print("---CADASTRAR NOVO EXERCÍCIO---")
-            user_id = input("Digite o ID do usuário: ")
-            nome_exercicio = input("Qual é o nome do exercício:  ")
-            series = input("Quantas séries você deseja cadastrar:  ")
-            repeticoes = input("Quantas repetições por série:  ")
-
-            if user_id.isdigit() and series.isdigit() and repeticoes.isdigit():
-                adicionar_exercicio(int(user_id), nome_exercicio, int(series), int(repeticoes))
-            else:
-                print("\n Erro: ID do usuário, séries e repetições devem ser números inteiros.")
-        elif opcao == "4":
+            print("---Lista de exercícios cadastrados---")
+            #eu ainda vou implementar a busca no banco!
             print("Aind vou implementar a busca no banco!")
 
 

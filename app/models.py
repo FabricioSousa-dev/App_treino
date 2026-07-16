@@ -29,28 +29,29 @@ def criar_tabelas():
     conn.commit()
     conn.close()
 
-
 def adicionar_usuario(nome, sobrenome, idade, peso, altura):
     conn = get_connection()
     cursor = conn.cursor()
-    
-    
+
     cursor.execute('''
         INSERT INTO users (nome, sobrenome, idade, peso, altura) 
         VALUES (?, ?, ?, ?, ?)
     ''', (nome, sobrenome, idade, peso, altura))
-    
+
     conn.commit()
+    user_id = cursor.lastrowid   # <- pega o id gerado automaticamente
     conn.close()
+    return user_id
 
 def adicionar_exercicio(user_id, nome_exercicio, series):
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute('''
-                   INSERT INTO exercises (user_id, nome_exercicio, series)
-                   VALUES (?, ?, ?)
-                   ''', (user_id, nome_exercicio, series))
+        INSERT INTO exercises (user_id, nome_exercicio, series)
+        VALUES (?, ?, ?)
+    ''', (user_id, nome_exercicio, series))
+
     conn.commit()
     conn.close()
 
