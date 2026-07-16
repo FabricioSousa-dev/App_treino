@@ -1,6 +1,5 @@
 person = list()
-
-while True:
+def user_info(dicionario={}):
     user = dict()
     user['Nome'] = input("Enter your name: ").upper().strip()
     user['Sobrenome'] = input("Enter your last name: ").upper().strip()
@@ -16,8 +15,9 @@ while True:
 
     person.append(user.copy())
     if opc == 'N':
-        break
+        return person
 
+person = user_info()
 print("Position   | Name | Last Name | Age | Weight | Height")
 for k, v in enumerate(person):
     print(f"{k+1:<10} | {v['Nome']:<4} | {v['Sobrenome']:<9} | {v['Idade']:<3} | {v['Peso']:<6} | {v['Altura']:<6}")
