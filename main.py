@@ -61,6 +61,9 @@ def main():
         elif opcao == "2":
             limpar_tela()
             print("---Lista de usuários cadastrados---")
+            usuarios = listar_usuarios()
+            for usuario in usuarios:
+                print()
             #eu ainda vou implementar a busca no banco!
         elif opcao == "0":
             limpar_tela()
