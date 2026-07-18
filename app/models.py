@@ -55,4 +55,16 @@ def adicionar_exercicio(user_id, nome_exercicio, series):
     conn.commit()
     conn.close()
 
+def listar_usuarios():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM users')
+    usuarios = cursor.fetchall()
+
+    conn.close()
+    return usuarios
+
+
+
     
