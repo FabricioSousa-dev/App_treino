@@ -53,6 +53,10 @@ def adicionar_usuario(nome, sobrenome, idade, peso, altura):
     return user_id
 
 def adicionar_exercicio(user_id, nome_exercicio, series):
+    '''
+    Função para adicionar um novo exercício ao banco de dados.
+    Não retorna nada.
+    '''
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -65,6 +69,10 @@ def adicionar_exercicio(user_id, nome_exercicio, series):
     conn.close()
 
 def listar_usuarios():
+    '''
+    Função para listar todos os usuários cadastrados no banco de dados.
+    Retorna uma lista de usuários.
+    '''
     conn = get_connection()
     cursor = conn.cursor()
 
