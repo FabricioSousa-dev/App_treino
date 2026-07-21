@@ -1,6 +1,11 @@
 from app.database import get_connection
 
 def criar_tabelas():
+    '''
+    Função para criar as tabelas no banco de dados.
+    Não recebe parâmetros e não retorna nada.
+
+    '''
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -30,6 +35,10 @@ def criar_tabelas():
     conn.close()
 
 def adicionar_usuario(nome, sobrenome, idade, peso, altura):
+    '''
+    Função para adicionar um novo usuário ao banco de dados.
+    Retorna o ID do usuário adicionado.
+    '''
     conn = get_connection()
     cursor = conn.cursor()
 
