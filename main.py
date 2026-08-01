@@ -1,5 +1,5 @@
 import os
-from app.models import criar_tabelas, adicionar_usuario, adicionar_exercicio
+from app.models import criar_tabelas, adicionar_usuario, adicionar_exercicio,listar_usuarios
 
 def exibir_menu():
     print("\n + " + "=" * 30)
