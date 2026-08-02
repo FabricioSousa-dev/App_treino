@@ -63,7 +63,9 @@ def main():
             print("---Lista de usuários cadastrados---")
             usuarios = listar_usuarios()        
             for usuario in usuarios:
+                print("-"*30)
                 print(f"ID: {usuario['id']}, Nome: {usuario['nome']}, Sobrenome: {usuario['sobrenome']}, Idade: {usuario['idade']}, Peso: {usuario['Peso']}, Altura: {usuario['Altura']}")
+                print("-"*30)
                 
 
         elif opcao == "0":
