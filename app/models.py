@@ -34,6 +34,9 @@ def criar_tabelas():
     conn.commit()
     conn.close()
 
+
+   #------------------Usuários------------------ 
+
 def adicionar_usuario(nome, sobrenome, idade, peso, altura):
     '''
     Função para adicionar um novo usuário ao banco de dados.
@@ -52,6 +55,25 @@ def adicionar_usuario(nome, sobrenome, idade, peso, altura):
     conn.close()
     return user_id
 
+
+def listar_usuarios():
+    '''
+    Função para listar todos os usuários cadastrados no banco de dados.
+    Retorna uma lista de usuários.
+    '''
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM users')
+    usuarios = cursor.fetchall()
+
+    conn.close()
+    return usuarios
+
+
+#------------------Exercícios------------------
+
+
 def adicionar_exercicio(user_id, nome_exercicio, series):
     '''
     Função para adicionar um novo exercício ao banco de dados.
@@ -67,20 +89,6 @@ def adicionar_exercicio(user_id, nome_exercicio, series):
 
     conn.commit()
     conn.close()
-
-def listar_usuarios():
-    '''
-    Função para listar todos os usuários cadastrados no banco de dados.
-    Retorna uma lista de usuários.
-    '''
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute('SELECT * FROM users')
-    usuarios = cursor.fetchall()
-
-    conn.close()
-    return usuarios
 
 def listar_exercicios():
     '''
@@ -99,7 +107,32 @@ def listar_exercicios():
     return exercicios
 
 
+def buscar_usuario_por_id(user_id):
+    '''
+    Função para buscar um usuário pelo ID no banco de dados.
+    Retorna o usuário encontrado.
+    '''
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,))
+    usuario = cursor.fetchone()
+
+    conn.close()
+    return usuario
+
+def deletar_usuario(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+
+
 def listar_exercicio_por_usuario(user_id):
+    '''
+    Função para listar os exercícios de um usuário específico.
+    Retorna uma lista de exercícios.
+    '''
 
     conn = get_connection()
     cursor = conn.cursor()
