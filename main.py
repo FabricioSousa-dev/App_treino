@@ -1,5 +1,5 @@
 import os
-from app.models import criar_tabelas, adicionar_usuario, adicionar_exercicio, listar_exercicios,listar_usuarios
+from app.models import criar_tabelas, adicionar_usuario, adicionar_exercicio, listar_exercicios,listar_usuarios,listar_exerciocios_por_usuario
 
 def exibir_menu():
     print("\n + " + "=" * 30)
@@ -8,6 +8,7 @@ def exibir_menu():
     print("1.criar Usuário")
     print("2.Listar usuários cadastrados")
     print("3.Listar exercícios cadastrados")
+    print("4.Listar exercícios por usuário")
     print("0.Sair do sistema")
     print("=" * 30)
 
@@ -82,6 +83,19 @@ def main():
                 print(f"ID: {usuario['id']}, Nome do Exercício: {usuario['nome_exercicio']}, Séries: {usuario['series']}")
                 print("-"*30)
                 print("")
+        elif opcao == "4":
+            limpar_tela()
+            print("---Lista de exercícios por usuário---")
+            user_id = escolher_usuario()
+            if user_id is not None:
+                exercicios = listar_exercicios_por_usuario(user_id)
+                if exercicios:
+                    for ex in exercicios:
+                        print("-"*30)
+                        print(f"ID: {ex['id']}, Exercício: {ex['nome_exercicio']}, Séries: {ex['series']}")
+                else:
+                    print("-"*30)
+                    print("Nenhum exercício cadastrado para este usuário.")
 
         else:
             limpar_tela()

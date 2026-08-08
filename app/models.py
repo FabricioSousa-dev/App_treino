@@ -97,3 +97,15 @@ def listar_exercicios():
 
     conn.close()
     return exercicios
+
+
+def listar_exercicio_por_usuario(user_id):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM exercises WHERE user_id = ?', (user_id,))
+    exercicios = cursor.fetchall()
+
+    conn.close()
+    return exercicios
