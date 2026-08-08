@@ -70,6 +70,30 @@ def listar_usuarios():
     conn.close()
     return usuarios
 
+def buscar_usuario_por_id(user_id):
+    '''
+    Função para buscar um usuário pelo ID no banco de dados.
+    Retorna o usuário encontrado.
+    '''
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,))
+    usuario = cursor.fetchone()
+
+    conn.close()
+    return usuario
+
+def deletar_usuario(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('DELETE FROM users WHERE id = ?', (user_id,))
+    conn.commit()
+    deletado = cursor.rowcount > 0
+    conn.close()
+    return deletado
 
 #------------------Exercícios------------------
 
@@ -106,25 +130,6 @@ def listar_exercicios():
     conn.close()
     return exercicios
 
-
-def buscar_usuario_por_id(user_id):
-    '''
-    Função para buscar um usuário pelo ID no banco de dados.
-    Retorna o usuário encontrado.
-    '''
-
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,))
-    usuario = cursor.fetchone()
-
-    conn.close()
-    return usuario
-
-def deletar_usuario(user_id):
-    conn = get_connection()
-    cursor = conn.cursor()
     
 
 
@@ -142,3 +147,27 @@ def listar_exercicio_por_usuario(user_id):
 
     conn.close()
     return exercicios
+
+def atualizar_exercicio(exercicio_id, nome_exercicio, series):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    if nome_exercicio is not None:
+        cursor.execute('UPDATE exercises SET nome_exercicio = ? WHERE id = ?',
+                       (series, exercicicio_id)
+
+            )
+        conn.commit()
+        conn.close()
+
+
+def deletar_exercicio(exercicio_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('DELETE FROM exercises WHERE id = ?', (exercicio_id,))
+    conn.commit()
+    deletado = cursor.rowcount > 0
+    conn.close()
+    return deletado
