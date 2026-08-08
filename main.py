@@ -1,5 +1,5 @@
 import os
-from app.models import criar_tabelas, adicionar_usuario, adicionar_exercicio,listar_usuarios
+from app.models import criar_tabelas, adicionar_usuario, adicionar_exercicio, listar_exercicios,listar_usuarios
 
 def exibir_menu():
     print("\n + " + "=" * 30)
@@ -10,6 +10,8 @@ def exibir_menu():
     print("3.Listar exercícios cadastrados")
     print("0.Sair do sistema")
     print("=" * 30)
+
+    
 
 
 def limpar_tela():
@@ -75,8 +77,11 @@ def main():
         elif opcao == "3":
             limpar_tela()
             print("---Lista de exercícios cadastrados---")
-            #eu ainda vou implementar a busca no banco!
-            print("Aind vou implementar a busca no banco!")
+            for usuario in listar_exercicios():
+                print("-"*30)
+                print(f"ID: {usuario['id']}, Nome do Exercício: {usuario['nome_exercicio']}, Séries: {usuario['series']}")
+                print("-"*30)
+                print("")
 
         else:
             limpar_tela()

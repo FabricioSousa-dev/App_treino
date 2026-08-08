@@ -82,6 +82,18 @@ def listar_usuarios():
     conn.close()
     return usuarios
 
+def listar_exercicios():
+    '''
+    Função para listar todos os exercícios cadastrados no banco de dados.
+    Retorna uma lista de exercícios.
+    '''
 
 
-    
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM exercises')
+    exercicios = cursor.fetchall()
+
+    conn.close()
+    return exercicios
