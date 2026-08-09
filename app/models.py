@@ -31,9 +31,14 @@ def criar_tabelas():
         )
     ''')
 
+
+    cursor.execute("PRAGMA table_info(exercises)")
+    colunas = [linha[1] for linha in cursor.fetchall()]
+    if 'dia' not in colunas:
+        cursor.execute('ALTER TABLE exercises ADD COLUMN dia TEXT')
+
     conn.commit()
     conn.close()
-
 
 # ---------- USUÁRIOS ----------
 
@@ -115,9 +120,6 @@ def adicionar_exercicio(user_id, nome_exercicio, series, dia):
         INSERT INTO exercises (user_id, nome_exercicio, series, dia)
         VALUES (?, ?, ?, ?)
     ''', (user_id, nome_exercicio, series, dia))
-
-    conn.commit()
-    conn.close()
 
     conn.commit()
     conn.close()
