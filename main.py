@@ -11,7 +11,7 @@ from app.models import (
     atualizar_exercicio,
     deletar_exercicio,
 )
-from app.exercise import formatar_nome_exercicio, validar_series, validar_nome_exercicio
+from app.exercise import formatar_nome_exercicio, validar_series, validar_nome_exercicio, validar_dia, formatar_dia
 from app.user import calcular_imc, classificar_imc, validar_idade, validar_peso, validar_altura
 
 
@@ -64,12 +64,19 @@ def cadastrar_exercicios_para_usuario(user_id):
     while True:
         nome_exercicio = input("Digite o nome do exercício: ")
         series = input("Digite o número de séries: ")
+        dia = input("Digite o dia da semana (Segunda, Terça, Quarta, Quinta, Sexta, Sábado, Domingo): ")
 
-        if validar_nome_exercicio(nome_exercicio) and series.isdigit() and validar_series(int(series)):
-            adicionar_exercicio(user_id, formatar_nome_exercicio(nome_exercicio), int(series))
+        if (validar_nome_exercicio(nome_exercicio) and series.isdigit()
+                and validar_series(int(series)) and validar_dia(dia)):
+            adicionar_exercicio(
+                user_id,
+                formatar_nome_exercicio(nome_exercicio),
+                int(series),
+                formatar_dia(dia)
+            )
             print("Exercício cadastrado com sucesso!")
         else:
-            print("\nErro: nome ou número de séries inválido!")
+            print("\nErro: nome, séries ou dia inválido!")
 
         outro = input("Deseja cadastrar mais um exercício? (s/n): ")
         if outro.lower() != "s":
