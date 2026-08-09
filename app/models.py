@@ -26,6 +26,7 @@ def criar_tabelas():
             user_id INTEGER NOT NULL,
             nome_exercicio TEXT NOT NULL,
             series INTEGER,
+            dia TEXT,
             FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         )
     ''')
@@ -102,18 +103,21 @@ def deletar_usuario(user_id):
 
 # ---------- EXERCÍCIOS ----------
 
-def adicionar_exercicio(user_id, nome_exercicio, series):
+def adicionar_exercicio(user_id, nome_exercicio, series, dia):
     '''
-    Função para adicionar um novo exercício vinculado a um usuário.
+    Função para adicionar um novo exercício vinculado a um usuário e a um dia da semana.
     Não retorna nada.
     '''
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute('''
-        INSERT INTO exercises (user_id, nome_exercicio, series)
+        INSERT INTO exercises (user_id, nome_exercicio, series, dia)
         VALUES (?, ?, ?, ?)
     ''', (user_id, nome_exercicio, series, dia))
+
+    conn.commit()
+    conn.close()
 
     conn.commit()
     conn.close()
