@@ -12,7 +12,7 @@ from app.models import (
     deletar_exercicio,
 )
 from app.exercise import formatar_nome_exercicio, validar_series, validar_nome_exercicio
-from app.user import calcular_imc, classificar_imc, validar_idade, validar_peso, validar_altura
+from app.user import calcular_imc, classificar_imc, validar_idade, validar_peso, validar_altura,validar_dia, formatar_dia
 
 
 def exibir_menu():
