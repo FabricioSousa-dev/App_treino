@@ -1,3 +1,6 @@
+DIAS_VALIDOS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
+
+
 def formatar_nome_exercicio(nome):
     '''
     Função para formatar o nome do exercício.
@@ -20,3 +23,17 @@ def validar_nome_exercicio(nome):
     Retorna True se válido, False caso contrário.
     '''
     return bool(nome and nome.strip())
+
+
+def formatar_dia(dia):
+    '''
+    Formata o dia da semana digitado (tira espaços, deixa com inicial maiúscula).
+    '''
+    return dia.strip().capitalize()
+
+
+def validar_dia(dia):
+    '''
+    Retorna True se o dia informado é um dos dias da semana válidos.
+    '''
+    return formatar_dia(dia) in DIAS_VALIDOS

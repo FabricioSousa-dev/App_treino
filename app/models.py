@@ -112,8 +112,8 @@ def adicionar_exercicio(user_id, nome_exercicio, series):
 
     cursor.execute('''
         INSERT INTO exercises (user_id, nome_exercicio, series)
-        VALUES (?, ?, ?)
-    ''', (user_id, nome_exercicio, series))
+        VALUES (?, ?, ?, ?)
+    ''', (user_id, nome_exercicio, series, dia))
 
     conn.commit()
     conn.close()
@@ -150,24 +150,20 @@ def listar_exercicios_por_usuario(user_id):
     return exercicios
 
 
-def atualizar_exercicio(exercicio_id, nome_exercicio=None, series=None):
+def atualizar_exercicio(exercicio_id, nome_exercicio=None, series=None, dia=None):
     '''
-    Função para atualizar o nome e/ou as séries de um exercício existente.
+    Função para atualizar nome, séries e/ou dia de um exercício existente.
     Só atualiza os campos informados. Não retorna nada.
     '''
     conn = get_connection()
     cursor = conn.cursor()
 
     if nome_exercicio is not None:
-        cursor.execute(
-            'UPDATE exercises SET nome_exercicio = ? WHERE id = ?',
-            (nome_exercicio, exercicio_id)
-        )
+        cursor.execute('UPDATE exercises SET nome_exercicio = ? WHERE id = ?', (nome_exercicio, exercicio_id))
     if series is not None:
-        cursor.execute(
-            'UPDATE exercises SET series = ? WHERE id = ?',
-            (series, exercicio_id)
-        )
+        cursor.execute('UPDATE exercises SET series = ? WHERE id = ?', (series, exercicio_id))
+    if dia is not None:
+        cursor.execute('UPDATE exercises SET dia = ? WHERE id = ?', (dia, exercicio_id))
 
     conn.commit()
     conn.close()
