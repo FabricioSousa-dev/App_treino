@@ -21,6 +21,9 @@ CORS(app)
 
 
 def usuario_para_dict(usuario):
+    ''''
+    Converte um registro de usuário em um dicionário.
+    Calcula o IMC e a classificação do IMC.'''
     imc = calcular_imc(usuario['peso'], usuario['altura'])
     return {
         "id": usuario["id"],
@@ -35,6 +38,7 @@ def usuario_para_dict(usuario):
 
 
 def exercicio_para_dict(ex):
+    '''Converte um registro de exercício em um dicionário.'''
     return {
         "id": ex["id"],
         "user_id": ex["user_id"],
@@ -53,6 +57,7 @@ def index():
 
 @app.route("/usuarios", methods=["GET"])
 def get_usuarios():
+    '''Retorna a lista de todos os usuários cadastrados.'''
     usuarios = listar_usuarios()
     return jsonify([usuario_para_dict(u) for u in usuarios])
 
@@ -67,6 +72,7 @@ def get_usuario(user_id):
 
 @app.route("/usuarios", methods=["POST"])
 def post_usuario():
+    '''Adiciona um novo usuário.'''
     dados = request.get_json(silent=True) or {}
     nome = dados.get("nome")
     sobrenome = dados.get("sobrenome")
@@ -91,6 +97,7 @@ def post_usuario():
 
 @app.route("/usuarios/<int:user_id>", methods=["DELETE"])
 def delete_usuario(user_id):
+    '''Deleta um usuário pelo ID.'''
     if buscar_usuario_por_id(user_id) is None:
         return jsonify({"erro": "Usuário não encontrado"}), 404
     deletar_usuario(user_id)
@@ -107,6 +114,7 @@ def get_exercicios():
 
 @app.route("/usuarios/<int:user_id>/exercicios", methods=["GET"])
 def get_exercicios_por_usuario(user_id):
+    '''Retorna os exercícios de um usuário específico.'''
     if buscar_usuario_por_id(user_id) is None:
         return jsonify({"erro": "Usuário não encontrado"}), 404
     exercicios = listar_exercicios_por_usuario(user_id)
@@ -115,6 +123,7 @@ def get_exercicios_por_usuario(user_id):
 
 @app.route("/usuarios/<int:user_id>/exercicios", methods=["POST"])
 def post_exercicio(user_id):
+    '''Adiciona um novo exercício para um usuário específico.'''
     if buscar_usuario_por_id(user_id) is None:
         return jsonify({"erro": "Usuário não encontrado"}), 404
 
@@ -146,6 +155,7 @@ def post_exercicio(user_id):
 
 @app.route("/exercicios/<int:exercicio_id>", methods=["PUT"])
 def put_exercicio(exercicio_id):
+    '''Atualiza os detalhes de um exercício específico.'''
     dados = request.get_json(silent=True) or {}
 
     nome_exercicio = dados.get("nome_exercicio")
@@ -168,7 +178,7 @@ def put_exercicio(exercicio_id):
             return jsonify({"erro": "series deve ser maior que zero"}), 400
 
     dia_final = None
-    if dia is not None:
+    if dia is not None: 
         if not validar_dia(dia):
             return jsonify({"erro": "dia inválido"}), 400
         dia_final = formatar_dia(dia)
@@ -179,6 +189,7 @@ def put_exercicio(exercicio_id):
 
 @app.route("/exercicios/<int:exercicio_id>", methods=["DELETE"])
 def delete_exercicio(exercicio_id):
+    '''Deleta um exercício pelo ID.'''
     if deletar_exercicio(exercicio_id):
         return jsonify({"mensagem": "Exercício deletado com sucesso"})
     return jsonify({"erro": "Exercício não encontrado"}), 404
