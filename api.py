@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,send_file
 from flask_cors import CORS
 
 from app.models import (
@@ -17,7 +17,7 @@ from app.exercise import formatar_nome_exercicio, validar_series, validar_nome_e
 from app.user import calcular_imc, classificar_imc, validar_idade, validar_peso, validar_altura
 
 app = Flask(__name__)
-CORS(app)  # permite chamadas do frontend (abre o index.html direto no navegador)
+CORS(app)  
 
 
 def usuario_para_dict(usuario):
@@ -42,6 +42,11 @@ def exercicio_para_dict(ex):
         "series": ex["series"],
         "dia": ex["dia"],
     }
+
+# ---------- PÁGINA INICIAL ----------
+@app.route("/", methods=["GET"])
+def index():
+    return send_file("index.html")
 
 
 # ---------- USUÁRIOS ----------
@@ -134,7 +139,7 @@ def post_exercicio(user_id):
 
     adicionar_exercicio(user_id, formatar_nome_exercicio(nome_exercicio), series_int, formatar_dia(dia))
 
-    # devolve o exercício recém-criado (o último da lista do usuário)
+
     exercicios = listar_exercicios_por_usuario(user_id)
     return jsonify(exercicio_para_dict(exercicios[-1])), 201
 
