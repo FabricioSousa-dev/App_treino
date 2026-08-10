@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App Treino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #18181a;
+    --surface: #232326;
+    --surface-2: #2b2b2f;
+    --border: #38383d;
+    --text: #ececee;
+    --muted: #91919a;
+    --accent: #ff4d2e;
+    --accent-dim: #7a2717;
+    --ok: #6bcb77;
+    --danger: #ff6b6b;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    min-height: 100vh;
+    padding: 0 0 4rem;
+  }
+
+  a, button, input, select { font-family: inherit; }
+
+  header {
+    padding: 2.75rem 1.5rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .brand h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 2.1rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .brand .accent { color: var(--accent); }
+
+  .stamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    border-radius: 999px;
+    padding: 0.35rem 0.8rem;
+    transform: rotate(-4deg);
+    white-space: nowrap;
+  }
+
+  .api-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    display: inline-block;
+  }
+
+  .dot.on { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+  .dot.off { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 0;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 760px) {
+    main { grid-template-columns: 1fr; }
+  }
+
+  section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  .col-left { display: flex; flex-direction: column; gap: 1.5rem; }
+  .col-right { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin: 0 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  h2::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--accent);
+    display: inline-block;
+    border-radius: 2px;
+  }
+
+  form { display: flex; flex-direction: column; gap: 0.7rem; }
+
+  .field { display: flex; flex-direction: column; gap: 0.3rem; }
+
+  label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  input, select {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.55rem 0.65rem;
+    color: var(--text);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  input:focus, select:focus {
+    border-color: var(--accent);
+  }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+
+  button {
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: transform 0.08s ease, opacity 0.15s ease;
+  }
+
+  button:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #1a1a1a;
+    margin-top: 0.3rem;
+  }
+
+  .btn-primary:hover { opacity: 0.92; }
+
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-danger {
+    background: transparent;
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .btn-danger:hover { background: var(--danger); color: #1a1a1a; }
+
+  .btn-small {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .user-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .user-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 0.8rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    transition: border-color 0.15s ease;
+  }
+
+  .user-card:hover { border-color: var(--accent); }
+
+  .user-card.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .user-card .u-name {
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .user-card .u-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .imc-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .empty {
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 1.2rem 0.5rem;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+  }
+
+  .selected-user-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .selected-user-tag strong { color: var(--text); }
+
+  .exercicio-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .day-stamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    border: 1.5px solid var(--accent-dim);
+    border-radius: 6px;
+    padding: 0.25rem 0.4rem;
+    min-width: 3.4rem;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .ex-info { flex: 1; min-width: 0; }
+
+  .ex-name { font-weight: 600; font-size: 0.9rem; }
+
+  .ex-series {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .ex-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
+
+  .toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--ok);
+    color: var(--text);
+    padding: 0.7rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 50;
+  }
+
+  .toast.error { border-left-color: var(--danger); }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-6px); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0.9rem 0; }
+
+  .hint {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: -0.2rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>App <span class="accent">Treino</span></h1>
+    <span class="stamp">Segunda &rarr; Domingo</span>
+  </div>
+  <div class="api-status">
+    <span class="dot" id="statusDot"></span>
+    <span id="statusText">verificando API...</span>
+  </div>
+</header>
+
+<main>
+  <div class="col-left">
+    <section>
+      <h2>Novo usuário</h2>
+      <form id="formUsuario">
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input id="nome" required>
+        </div>
+        <div class="field">
+          <label for="sobrenome">Sobrenome</label>
+          <input id="sobrenome" required>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="idade">Idade</label>
+            <input id="idade" type="number" min="1" required>
+          </div>
+          <div class="field">
+            <label for="peso">Peso (kg)</label>
+            <input id="peso" type="number" step="0.1" min="1" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="altura">Altura (m)</label>
+          <input id="altura" type="number" step="0.01" min="0.5" max="2.9" required>
+        </div>
+        <button type="submit" class="btn-primary">Cadastrar usuário</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Usuários</h2>
+      <div class="user-list" id="userList">
+        <div class="empty">Carregando usuários...</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="col-right">
+    <section>
+      <h2>Adicionar exercício</h2>
+      <div class="selected-user-tag" id="selectedUserTag">Selecione um usuário na lista ao lado.</div>
+      <form id="formExercicio">
+        <div class="field">
+          <label for="nomeExercicio">Nome do exercício</label>
+          <input id="nomeExercicio" required>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="series">Séries</label>
+            <input id="series" type="number" min="1" required>
+          </div>
+          <div class="field">
+            <label for="dia">Dia da semana</label>
+            <select id="dia" required>
+              <option value="">Selecione</option>
+              <option>Segunda</option>
+              <option>Terça</option>
+              <option>Quarta</option>
+              <option>Quinta</option>
+              <option>Sexta</option>
+              <option>Sábado</option>
+              <option>Domingo</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" id="btnAddExercicio" disabled>Adicionar exercício</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Exercícios do usuário</h2>
+      <div id="exercicioList">
+        <div class="empty">Nenhum usuário selecionado.</div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'http://127.0.0.1:5000';
+
+let usuarios = [];
+let usuarioSelecionadoId = null;
+
+const userList = document.getElementById('userList');
+const exercicioList = document.getElementById('exercicioList');
+const selectedUserTag = document.getElementById('selectedUserTag');
+const btnAddExercicio = document.getElementById('btnAddExercicio');
+const statusDot = document.getElementById('statusDot');
+const statusText = document.getElementById('statusText');
+const toast = document.getElementById('toast');
+
+function showToast(msg, isError) {
+  toast.textContent = msg;
+  toast.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => { toast.className = 'toast'; }, 2600);
+}
+
+async function apiCall(path, options) {
+  try {
+    const res = await fetch(API + path, options);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.erro || 'Erro na requisição (' + res.status + ')');
+    }
+    return data;
+  } catch (err) {
+    if (err.message.includes('fetch')) {
+      throw new Error('Não foi possível conectar na API. Ela está rodando em ' + API + ' ?');
+    }
+    throw err;
+  }
+}
+
+async function checarApi() {
+  try {
+    await apiCall('/usuarios');
+    statusDot.className = 'dot on';
+    statusText.textContent = 'API conectada';
+    return true;
+  } catch (err) {
+    statusDot.className = 'dot off';
+    statusText.textContent = 'API offline';
+    return false;
+  }
+}
+
+function renderUsuarios() {
+  if (usuarios.length === 0) {
+    userList.innerHTML = '<div class="empty">Nenhum usuário cadastrado ainda.</div>';
+    return;
+  }
+  userList.innerHTML = '';
+  usuarios.forEach(u => {
+    const card = document.createElement('div');
+    card.className = 'user-card' + (u.id === usuarioSelecionadoId ? ' selected' : '');
+    card.innerHTML = `
+      <div>
+        <div class="u-name">${escapeHtml(u.nome)} ${escapeHtml(u.sobrenome)}</div>
+        <div class="u-meta">${u.idade}a · ${u.peso}kg · ${u.altura}m</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <span class="imc-badge">IMC ${u.imc}</span>
+        <button class="btn-danger" data-del-user="${u.id}">Excluir</button>
+      </div>
+    `;
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('[data-del-user]')) return;
+      selecionarUsuario(u.id);
+    });
+    userList.appendChild(card);
+  });
+
+  userList.querySelectorAll('[data-del-user]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const id = Number(btn.dataset.delUser);
+      if (!confirm('Excluir esse usuário e todos os exercícios dele?')) return;
+      try {
+        await apiCall('/usuarios/' + id, { method: 'DELETE' });
+        showToast('Usuário excluído.');
+        if (usuarioSelecionadoId === id) {
+          usuarioSelecionadoId = null;
+        }
+        await carregarUsuarios();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    });
+  });
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str ?? '';
+  return div.innerHTML;
+}
+
+async function carregarUsuarios() {
+  try {
+    usuarios = await apiCall('/usuarios');
+    renderUsuarios();
+    if (usuarioSelecionadoId) {
+      await carregarExercicios();
+    }
+  } catch (err) {
+    userList.innerHTML = `<div class="empty">${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function selecionarUsuario(id) {
+  usuarioSelecionadoId = id;
+  const u = usuarios.find(x => x.id === id);
+  selectedUserTag.innerHTML = u ? `Adicionando para <strong>${escapeHtml(u.nome)} ${escapeHtml(u.sobrenome)}</strong>` : '';
+  btnAddExercicio.disabled = false;
+  renderUsuarios();
+  carregarExercicios();
+}
+
+async function carregarExercicios() {
+  if (!usuarioSelecionadoId) {
+    exercicioList.innerHTML = '<div class="empty">Nenhum usuário selecionado.</div>';
+    return;
+  }
+  try {
+    const exercicios = await apiCall('/usuarios/' + usuarioSelecionadoId + '/exercicios');
+    renderExercicios(exercicios);
+  } catch (err) {
+    exercicioList.innerHTML = `<div class="empty">${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function renderExercicios(exercicios) {
+  if (exercicios.length === 0) {
+    exercicioList.innerHTML = '<div class="empty">Esse usuário ainda não tem exercícios.</div>';
+    return;
+  }
+  exercicioList.innerHTML = '';
+  exercicios.forEach(ex => {
+    const row = document.createElement('div');
+    row.className = 'exercicio-row';
+    row.innerHTML = `
+      <div class="day-stamp">${escapeHtml(ex.dia || '—')}</div>
+      <div class="ex-info">
+        <div class="ex-name">${escapeHtml(ex.nome_exercicio)}</div>
+        <div class="ex-series">${ex.series} séries</div>
+      </div>
+      <div class="ex-actions">
+        <button class="btn-ghost btn-small" data-edit="${ex.id}">Editar</button>
+        <button class="btn-danger" data-del-ex="${ex.id}">Excluir</button>
+      </div>
+    `;
+    exercicioList.appendChild(row);
+  });
+
+  exercicioList.querySelectorAll('[data-del-ex]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = Number(btn.dataset.delEx);
+      if (!confirm('Excluir esse exercício?')) return;
+      try {
+        await apiCall('/exercicios/' + id, { method: 'DELETE' });
+        showToast('Exercício excluído.');
+        await carregarExercicios();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    });
+  });
+
+  exercicioList.querySelectorAll('[data-edit]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = Number(btn.dataset.edit);
+      const atual = exercicios.find(e => e.id === id);
+      const novoNome = prompt('Novo nome do exercício (deixe em branco para não mudar):', '');
+      const novaSeries = prompt('Novo número de séries (deixe em branco para não mudar):', '');
+      const novoDia = prompt('Novo dia (Segunda, Terça, Quarta, Quinta, Sexta, Sábado, Domingo — em branco para não mudar):', '');
+
+      const payload = {};
+      if (novoNome && novoNome.trim()) payload.nome_exercicio = novoNome.trim();
+      if (novaSeries && novaSeries.trim()) payload.series = Number(novaSeries);
+      if (novoDia && novoDia.trim()) payload.dia = novoDia.trim();
+
+      if (Object.keys(payload).length === 0) return;
+
+      try {
+        await apiCall('/exercicios/' + id, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        showToast('Exercício atualizado.');
+        await carregarExercicios();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    });
+  });
+}
+
+document.getElementById('formUsuario').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const payload = {
+    nome: document.getElementById('nome').value.trim(),
+    sobrenome: document.getElementById('sobrenome').value.trim(),
+    idade: Number(document.getElementById('idade').value),
+    peso: Number(document.getElementById('peso').value),
+    altura: Number(document.getElementById('altura').value),
+  };
+  try {
+    await apiCall('/usuarios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    showToast('Usuário cadastrado.');
+    e.target.reset();
+    await carregarUsuarios();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+});
+
+document.getElementById('formExercicio').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!usuarioSelecionadoId) return;
+  const payload = {
+    nome_exercicio: document.getElementById('nomeExercicio').value.trim(),
+    series: Number(document.getElementById('series').value),
+    dia: document.getElementById('dia').value,
+  };
+  try {
+    await apiCall('/usuarios/' + usuarioSelecionadoId + '/exercicios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    showToast('Exercício adicionado.');
+    e.target.reset();
+    await carregarExercicios();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+});
+
+(async function init() {
+  const ok = await checarApi();
+  if (ok) await carregarUsuarios();
+})();
+</script>
+</body>
+</html>
