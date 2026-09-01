@@ -180,11 +180,14 @@ def main():
                 if ex_id.isdigit():
                     novo_nome = input("Novo nome (deixe em branco para não mudar): ")
                     nova_series = input("Novo número de séries (deixe em branco para não mudar): ")
+                    novo_dia = input("Novo dia (deixa em branco para não mudar): ")
                     atualizar_exercicio(
                         int(ex_id),
                         formatar_nome_exercicio(novo_nome) if novo_nome.strip() else None,
-                        int(nova_series) if nova_series.isdigit() else None
-                    )
+                        int(nova_series) if nova_series.isdigit() else None,
+                        formatar_dia(novo_dia) if novo_dia.strip() and validar_dia(novo_dia) else None
+
+                        )
                     print("Exercício atualizado com sucesso!")
                 else:
                     print("ID inválido!")
