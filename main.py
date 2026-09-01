@@ -175,7 +175,7 @@ def main():
                     print("Esse usuário não tem exercícios para editar.")
                     continue
                 for ex in exercicios:
-                    print(f"ID: {ex['id']} - {ex['nome_exercicio']} ({ex['series']} séries)")
+                    print(f"ID: {ex['id']} - {ex['nome_exercicio']} ({ex['series']} séries, {ex['dia']})")                
                 ex_id = input("Digite o ID do exercício a editar: ")
                 if ex_id.isdigit():
                     novo_nome = input("Novo nome (deixe em branco para não mudar): ")
@@ -202,7 +202,7 @@ def main():
                     print("Esse usuário não tem exercícios para deletar.")
                     continue
                 for ex in exercicios:
-                    print(f"ID: {ex['id']} - {ex['nome_exercicio']} ({ex['series']} séries)")
+                    print(f"ID: {ex['id']} - {ex['nome_exercicio']} ({ex['series']} séries, {ex['dia']})")
                 ex_id = input("Digite o ID do exercício a deletar: ")
                 if ex_id.isdigit() and deletar_exercicio(int(ex_id)):
                     print("Exercício deletado com sucesso!")
