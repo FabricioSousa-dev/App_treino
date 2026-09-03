@@ -11,7 +11,7 @@ from app.models import (
     atualizar_exercicio,
     deletar_exercicio,
 )
-from app.exercise import formatar_nome_exercicio, validar_series, validar_nome_exercicio, validar_dia, formatar_dia
+from app.exercise import formatar_nome_exercicio, validar_series, validar_nome_exercicio, validar_dia, formatar_dia, validar_repeticoes
 from app.user import calcular_imc, classificar_imc, validar_idade, validar_peso, validar_altura
 
 
@@ -64,19 +64,22 @@ def cadastrar_exercicios_para_usuario(user_id):
     while True:
         nome_exercicio = input("Digite o nome do exercício: ")
         series = input("Digite o número de séries: ")
+        repeticoes = input("Digite o número de repetições: ")
         dia = input("Digite o dia da semana (Segunda, Terça, Quarta, Quinta, Sexta, Sábado, Domingo): ")
 
         if (validar_nome_exercicio(nome_exercicio) and series.isdigit()
-                and validar_series(int(series)) and validar_dia(dia)):
+                and validar_series(int(series)) and repeticoes.isdigit()
+                and validar_repeticoes(int(repeticoes)) and validar_dia(dia)):
             adicionar_exercicio(
                 user_id,
                 formatar_nome_exercicio(nome_exercicio),
                 int(series),
-                formatar_dia(dia)
+                formatar_dia(dia),
+                int(repeticoes)
             )
             print("Exercício cadastrado com sucesso!")
         else:
-            print("\nErro: nome, séries ou dia inválido!")
+            print("\nErro: nome, séries, repetições ou dia inválido!")
 
         outro = input("Deseja cadastrar mais um exercício? (s/n): ")
         if outro.lower() != "s":
@@ -139,7 +142,7 @@ def main():
                 for ex in exercicios:
                     print("-" * 30)
                     print(f"ID: {ex['id']}, Usuário ID: {ex['user_id']}, "
-                          f"Exercício: {ex['nome_exercicio']}, Séries: {ex['series']}, Dia: {ex['dia']}")
+                          f"Exercício: {ex['nome_exercicio']}, Séries: {ex['series']}, Repetições: {ex['repeticoes']}, Dia: {ex['dia']}")
                 print("-" * 30)
             else:
                 print("Nenhum exercício cadastrado ainda.")
@@ -153,7 +156,7 @@ def main():
                 if exercicios:
                     for ex in exercicios:
                         print("-" * 30)
-                        print(f"ID: {ex['id']}, Exercício: {ex['nome_exercicio']}, Séries: {ex['series']}, Dia: {ex['dia']}")
+                        print(f"ID: {ex['id']}, Exercício: {ex['nome_exercicio']}, Séries: {ex['series']}, Repetições: {ex['repeticoes']}, Dia: {ex['dia']}")
                     print("-" * 30)
                 else:
                     print("Esse usuário ainda não tem exercícios cadastrados.")
@@ -175,18 +178,19 @@ def main():
                     print("Esse usuário não tem exercícios para editar.")
                     continue
                 for ex in exercicios:
-                    print(f"ID: {ex['id']} - {ex['nome_exercicio']} ({ex['series']} séries, {ex['dia']})")
+                    print(f"ID: {ex['id']} - {ex['nome_exercicio']} ({ex['series']} séries, {ex['repeticoes']} rep, {ex['dia']})")
                 ex_id = input("Digite o ID do exercício a editar: ")
                 if ex_id.isdigit():
                     novo_nome = input("Novo nome (deixe em branco para não mudar): ")
                     nova_series = input("Novo número de séries (deixe em branco para não mudar): ")
+                    novas_repeticoes = input("Novo número de repetições (deixe em branco para não mudar): ")
                     novo_dia = input("Novo dia (deixa em branco para não mudar): ")
                     atualizar_exercicio(
                         int(ex_id),
                         formatar_nome_exercicio(novo_nome) if novo_nome.strip() else None,
                         int(nova_series) if nova_series.isdigit() else None,
-                        formatar_dia(novo_dia) if novo_dia.strip() and validar_dia(novo_dia) else None
-
+                        formatar_dia(novo_dia) if novo_dia.strip() and validar_dia(novo_dia) else None,
+                        int(novas_repeticoes) if novas_repeticoes.isdigit() else None
                         )
                     print("Exercício atualizado com sucesso!")
                 else:
@@ -202,7 +206,7 @@ def main():
                     print("Esse usuário não tem exercícios para deletar.")
                     continue
                 for ex in exercicios:
-                    print(f"ID: {ex['id']} - {ex['nome_exercicio']} ({ex['series']} séries, {ex['dia']})")
+                    print(f"ID: {ex['id']} - {ex['nome_exercicio']} ({ex['series']} séries, {ex['repeticoes']} rep, {ex['dia']})")
                 ex_id = input("Digite o ID do exercício a deletar: ")
                 if ex_id.isdigit() and deletar_exercicio(int(ex_id)):
                     print("Exercício deletado com sucesso!")

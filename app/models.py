@@ -27,18 +27,22 @@ def criar_tabelas():
             nome_exercicio TEXT NOT NULL,
             series INTEGER,
             dia TEXT,
+            repeticoes INTEGER,
             FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         )
     ''')
 
-
+    # migração: adiciona colunas se o banco já existia sem elas
     cursor.execute("PRAGMA table_info(exercises)")
     colunas = [linha[1] for linha in cursor.fetchall()]
     if 'dia' not in colunas:
         cursor.execute('ALTER TABLE exercises ADD COLUMN dia TEXT')
+    if 'repeticoes' not in colunas:
+        cursor.execute('ALTER TABLE exercises ADD COLUMN repeticoes INTEGER')
 
     conn.commit()
     conn.close()
+
 
 # ---------- USUÁRIOS ----------
 
@@ -108,18 +112,18 @@ def deletar_usuario(user_id):
 
 # ---------- EXERCÍCIOS ----------
 
-def adicionar_exercicio(user_id, nome_exercicio, series, dia):
+def adicionar_exercicio(user_id, nome_exercicio, series, dia, repeticoes):
     '''
-    Função para adicionar um novo exercício vinculado a um usuário e a um dia da semana.
+    Função para adicionar um novo exercício vinculado a um usuário, dia da semana e repetições.
     Não retorna nada.
     '''
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute('''
-        INSERT INTO exercises (user_id, nome_exercicio, series, dia)
-        VALUES (?, ?, ?, ?)
-    ''', (user_id, nome_exercicio, series, dia))
+        INSERT INTO exercises (user_id, nome_exercicio, series, dia, repeticoes)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (user_id, nome_exercicio, series, dia, repeticoes))
 
     conn.commit()
     conn.close()
@@ -156,9 +160,9 @@ def listar_exercicios_por_usuario(user_id):
     return exercicios
 
 
-def atualizar_exercicio(exercicio_id, nome_exercicio=None, series=None, dia=None):
+def atualizar_exercicio(exercicio_id, nome_exercicio=None, series=None, dia=None, repeticoes=None):
     '''
-    Função para atualizar nome, séries e/ou dia de um exercício existente.
+    Função para atualizar nome, séries, dia e/ou repetições de um exercício existente.
     Só atualiza os campos informados. Não retorna nada.
     '''
     conn = get_connection()
@@ -170,6 +174,8 @@ def atualizar_exercicio(exercicio_id, nome_exercicio=None, series=None, dia=None
         cursor.execute('UPDATE exercises SET series = ? WHERE id = ?', (series, exercicio_id))
     if dia is not None:
         cursor.execute('UPDATE exercises SET dia = ? WHERE id = ?', (dia, exercicio_id))
+    if repeticoes is not None:
+        cursor.execute('UPDATE exercises SET repeticoes = ? WHERE id = ?', (repeticoes, exercicio_id))
 
     conn.commit()
     conn.close()

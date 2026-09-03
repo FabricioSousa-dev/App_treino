@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify,send_file
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 
 from app.models import (
@@ -13,17 +13,18 @@ from app.models import (
     atualizar_exercicio,
     deletar_exercicio,
 )
-from app.exercise import formatar_nome_exercicio, validar_series, validar_nome_exercicio, validar_dia, formatar_dia
+from app.exercise import formatar_nome_exercicio, validar_series, validar_nome_exercicio, validar_dia, formatar_dia, validar_repeticoes
 from app.user import calcular_imc, classificar_imc, validar_idade, validar_peso, validar_altura
 
 app = Flask(__name__)
-CORS(app)  
+CORS(app)
 
 
 def usuario_para_dict(usuario):
-    ''''
+    '''
     Converte um registro de usuário em um dicionário.
-    Calcula o IMC e a classificação do IMC.'''
+    Calcula o IMC e a classificação do IMC.
+    '''
     imc = calcular_imc(usuario['peso'], usuario['altura'])
     return {
         "id": usuario["id"],
@@ -44,8 +45,10 @@ def exercicio_para_dict(ex):
         "user_id": ex["user_id"],
         "nome_exercicio": ex["nome_exercicio"],
         "series": ex["series"],
+        "repeticoes": ex["repeticoes"],
         "dia": ex["dia"],
     }
+
 
 # ---------- PÁGINA INICIAL ----------
 @app.route("/", methods=["GET"])
@@ -130,6 +133,7 @@ def post_exercicio(user_id):
     dados = request.get_json(silent=True) or {}
     nome_exercicio = dados.get("nome_exercicio", "")
     series = dados.get("series")
+    repeticoes = dados.get("repeticoes")
     dia = dados.get("dia", "")
 
     if not validar_nome_exercicio(nome_exercicio):
@@ -143,11 +147,18 @@ def post_exercicio(user_id):
     if not validar_series(series_int):
         return jsonify({"erro": "series deve ser maior que zero"}), 400
 
+    try:
+        repeticoes_int = int(repeticoes)
+    except (TypeError, ValueError):
+        return jsonify({"erro": "repeticoes deve ser um número inteiro"}), 400
+
+    if not validar_repeticoes(repeticoes_int):
+        return jsonify({"erro": "repeticoes deve ser maior que zero"}), 400
+
     if not validar_dia(dia):
         return jsonify({"erro": "dia inválido. Use Segunda, Terça, Quarta, Quinta, Sexta, Sábado ou Domingo"}), 400
 
-    adicionar_exercicio(user_id, formatar_nome_exercicio(nome_exercicio), series_int, formatar_dia(dia))
-
+    adicionar_exercicio(user_id, formatar_nome_exercicio(nome_exercicio), series_int, formatar_dia(dia), repeticoes_int)
 
     exercicios = listar_exercicios_por_usuario(user_id)
     return jsonify(exercicio_para_dict(exercicios[-1])), 201
@@ -160,6 +171,7 @@ def put_exercicio(exercicio_id):
 
     nome_exercicio = dados.get("nome_exercicio")
     series = dados.get("series")
+    repeticoes = dados.get("repeticoes")
     dia = dados.get("dia")
 
     nome_final = None
@@ -177,13 +189,22 @@ def put_exercicio(exercicio_id):
         if not validar_series(series_final):
             return jsonify({"erro": "series deve ser maior que zero"}), 400
 
+    repeticoes_final = None
+    if repeticoes is not None:
+        try:
+            repeticoes_final = int(repeticoes)
+        except (TypeError, ValueError):
+            return jsonify({"erro": "repeticoes deve ser um número inteiro"}), 400
+        if not validar_repeticoes(repeticoes_final):
+            return jsonify({"erro": "repeticoes deve ser maior que zero"}), 400
+
     dia_final = None
-    if dia is not None: 
+    if dia is not None:
         if not validar_dia(dia):
             return jsonify({"erro": "dia inválido"}), 400
         dia_final = formatar_dia(dia)
 
-    atualizar_exercicio(exercicio_id, nome_final, series_final, dia_final)
+    atualizar_exercicio(exercicio_id, nome_final, series_final, dia_final, repeticoes_final)
     return jsonify({"mensagem": "Exercício atualizado com sucesso"})
 
 

@@ -414,18 +414,22 @@
             <input id="series" type="number" min="1" required>
           </div>
           <div class="field">
-            <label for="dia">Dia da semana</label>
-            <select id="dia" required>
-              <option value="">Selecione</option>
-              <option>Segunda</option>
-              <option>Terça</option>
-              <option>Quarta</option>
-              <option>Quinta</option>
-              <option>Sexta</option>
-              <option>Sábado</option>
-              <option>Domingo</option>
-            </select>
+            <label for="repeticoes">Repetições</label>
+            <input id="repeticoes" type="number" min="1" required>
           </div>
+        </div>
+        <div class="field">
+          <label for="dia">Dia da semana</label>
+          <select id="dia" required>
+            <option value="">Selecione</option>
+            <option>Segunda</option>
+            <option>Terça</option>
+            <option>Quarta</option>
+            <option>Quinta</option>
+            <option>Sexta</option>
+            <option>Sábado</option>
+            <option>Domingo</option>
+          </select>
         </div>
         <button type="submit" class="btn-primary" id="btnAddExercicio" disabled>Adicionar exercício</button>
       </form>
@@ -589,7 +593,7 @@ function renderExercicios(exercicios) {
       <div class="day-stamp">${escapeHtml(ex.dia || '—')}</div>
       <div class="ex-info">
         <div class="ex-name">${escapeHtml(ex.nome_exercicio)}</div>
-        <div class="ex-series">${ex.series} séries</div>
+        <div class="ex-series">${ex.series} séries · ${ex.repeticoes} rep</div>
       </div>
       <div class="ex-actions">
         <button class="btn-ghost btn-small" data-edit="${ex.id}">Editar</button>
@@ -619,11 +623,13 @@ function renderExercicios(exercicios) {
       const atual = exercicios.find(e => e.id === id);
       const novoNome = prompt('Novo nome do exercício (deixe em branco para não mudar):', '');
       const novaSeries = prompt('Novo número de séries (deixe em branco para não mudar):', '');
+      const novasRepeticoes = prompt('Novo número de repetições (deixe em branco para não mudar):', '');
       const novoDia = prompt('Novo dia (Segunda, Terça, Quarta, Quinta, Sexta, Sábado, Domingo — em branco para não mudar):', '');
 
       const payload = {};
       if (novoNome && novoNome.trim()) payload.nome_exercicio = novoNome.trim();
       if (novaSeries && novaSeries.trim()) payload.series = Number(novaSeries);
+      if (novasRepeticoes && novasRepeticoes.trim()) payload.repeticoes = Number(novasRepeticoes);
       if (novoDia && novoDia.trim()) payload.dia = novoDia.trim();
 
       if (Object.keys(payload).length === 0) return;
@@ -672,6 +678,7 @@ document.getElementById('formExercicio').addEventListener('submit', async (e) =>
   const payload = {
     nome_exercicio: document.getElementById('nomeExercicio').value.trim(),
     series: Number(document.getElementById('series').value),
+    repeticoes: Number(document.getElementById('repeticoes').value),
     dia: document.getElementById('dia').value,
   };
   try {

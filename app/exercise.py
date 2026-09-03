@@ -17,6 +17,14 @@ def validar_series(series):
     return series > 0
 
 
+def validar_repeticoes(repeticoes):
+    '''
+    Função para validar o número de repetições.
+    Retorna True se o número de repetições for válido (maior que zero), False caso contrário.
+    '''
+    return repeticoes > 0
+
+
 def validar_nome_exercicio(nome):
     '''
     Função para validar se o nome do exercício não está vazio.
