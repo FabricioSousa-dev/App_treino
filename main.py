@@ -62,6 +62,7 @@ def escolher_usuario():
 
 
 def cadastrar_exercicios_para_usuario(user_id):
+    '''Cadastra exercícios para um usuário específico. Valida os dados antes de adicionar.'''
     while True:
         nome_exercicio = input("Digite o nome do exercício: ")
         series = input("Digite o número de séries: ")
