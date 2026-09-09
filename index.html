@@ -31,16 +31,13 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  body {
-    min-height: 100vh;
-    padding: 0 0 4rem;
-  }
+  body { min-height: 100vh; padding: 0 0 4rem; }
 
   a, button, input, select { font-family: inherit; }
 
   header {
-    padding: 2.75rem 1.5rem 2rem;
-    max-width: 960px;
+    padding: 2.25rem 1.5rem 1.5rem;
+    max-width: 640px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -50,16 +47,12 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .brand {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-  }
+  .brand { display: flex; align-items: baseline; gap: 0.75rem; }
 
   .brand h1 {
     font-family: 'Oswald', sans-serif;
     font-weight: 700;
-    font-size: 2.1rem;
+    font-size: 1.9rem;
     letter-spacing: 0.02em;
     text-transform: uppercase;
     margin: 0;
@@ -69,49 +62,45 @@
 
   .stamp {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--accent);
     border: 1.5px solid var(--accent);
     border-radius: 999px;
-    padding: 0.35rem 0.8rem;
+    padding: 0.3rem 0.7rem;
     transform: rotate(-4deg);
     white-space: nowrap;
   }
 
   .api-status {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: var(--muted);
     display: flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.4rem;
   }
 
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--muted);
-    display: inline-block;
-  }
-
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
   .dot.on { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
   .dot.off { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
 
   main {
-    max-width: 960px;
+    max-width: 640px;
     margin: 0 auto;
-    padding: 2rem 1.5rem 0;
-    display: grid;
-    grid-template-columns: 340px 1fr;
-    gap: 1.5rem;
+    padding: 1.5rem 1.5rem 0;
   }
 
-  @media (max-width: 760px) {
-    main { grid-template-columns: 1fr; }
+  /* ---------- screens ---------- */
+
+  .screen { display: none; flex-direction: column; gap: 1.25rem; animation: fadeIn 0.18s ease; }
+  .screen.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   section {
@@ -121,14 +110,11 @@
     padding: 1.25rem 1.25rem 1.5rem;
   }
 
-  .col-left { display: flex; flex-direction: column; gap: 1.5rem; }
-  .col-right { display: flex; flex-direction: column; gap: 1.5rem; }
-
   h2 {
     font-family: 'Oswald', sans-serif;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     letter-spacing: 0.06em;
     color: var(--muted);
     margin: 0 0 1rem;
@@ -145,6 +131,28 @@
     display: inline-block;
     border-radius: 2px;
   }
+
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
+
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   form { display: flex; flex-direction: column; gap: 0.7rem; }
 
@@ -168,11 +176,14 @@
     transition: border-color 0.15s ease;
   }
 
-  input:focus, select:focus {
-    border-color: var(--accent);
-  }
+  input:focus, select:focus { border-color: var(--accent); }
 
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.7rem; }
+
+  @media (max-width: 480px) {
+    .row3 { grid-template-columns: 1fr 1fr; }
+  }
 
   button {
     cursor: pointer;
@@ -186,20 +197,10 @@
 
   button:active { transform: scale(0.97); }
 
-  .btn-primary {
-    background: var(--accent);
-    color: #1a1a1a;
-    margin-top: 0.3rem;
-  }
-
+  .btn-primary { background: var(--accent); color: #1a1a1a; margin-top: 0.3rem; }
   .btn-primary:hover { opacity: 0.92; }
 
-  .btn-ghost {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-
+  .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
   .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
   .btn-danger {
@@ -209,13 +210,20 @@
     padding: 0.35rem 0.6rem;
     font-size: 0.75rem;
   }
-
   .btn-danger:hover { background: var(--danger); color: #1a1a1a; }
 
-  .btn-small {
-    padding: 0.35rem 0.6rem;
-    font-size: 0.75rem;
+  .btn-small { padding: 0.35rem 0.6rem; font-size: 0.75rem; }
+
+  .toggle-form-btn {
+    background: var(--surface-2);
+    border: 1px dashed var(--border);
+    color: var(--muted);
+    width: 100%;
+    padding: 0.7rem;
   }
+  .toggle-form-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- home: user list ---------- */
 
   .user-list { display: flex; flex-direction: column; gap: 0.5rem; }
 
@@ -223,7 +231,7 @@
     background: var(--surface-2);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 0.7rem 0.8rem;
+    padding: 0.75rem 0.9rem;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -234,21 +242,14 @@
 
   .user-card:hover { border-color: var(--accent); }
 
-  .user-card.selected {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 1px var(--accent);
-  }
-
-  .user-card .u-name {
-    font-weight: 600;
-    font-size: 0.92rem;
-  }
-
+  .user-card .u-name { font-weight: 600; font-size: 0.94rem; }
   .user-card .u-meta {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
     color: var(--muted);
   }
+
+  .chevron { color: var(--muted); font-size: 1.1rem; }
 
   .imc-badge {
     font-family: 'JetBrains Mono', monospace;
@@ -270,14 +271,38 @@
     border-radius: 8px;
   }
 
-  .selected-user-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--muted);
-    margin-bottom: 1rem;
+  /* ---------- detail screen: user info card ---------- */
+
+  .user-info-card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem 1.2rem;
   }
 
-  .selected-user-tag strong { color: var(--text); }
+  .stat { display: flex; flex-direction: column; gap: 0.15rem; }
+  .stat-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+  .stat-value.imc-normal { color: var(--ok); }
+  .stat-value.imc-alerta { color: var(--accent); }
+
+  .user-name-header {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    margin: 0 0 0.9rem;
+  }
+
+  /* ---------- exercise entries ---------- */
 
   .exercicio-row {
     display: flex;
@@ -306,9 +331,7 @@
   }
 
   .ex-info { flex: 1; min-width: 0; }
-
   .ex-name { font-weight: 600; font-size: 0.9rem; }
-
   .ex-series {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.75rem;
@@ -333,18 +356,12 @@
     pointer-events: none;
     transition: opacity 0.2s ease, transform 0.2s ease;
     z-index: 50;
+    max-width: 90vw;
+    text-align: center;
   }
 
   .toast.error { border-left-color: var(--danger); }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(-6px); }
-
-  .divider { border: none; border-top: 1px solid var(--border); margin: 0.9rem 0; }
-
-  .hint {
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-top: -0.2rem;
-  }
 </style>
 </head>
 <body>
@@ -361,10 +378,13 @@
 </header>
 
 <main>
-  <div class="col-left">
+
+  <!-- ===================== TELA 1: HOME ===================== -->
+  <div class="screen active" id="screenHome">
+
     <section>
-      <h2>Novo usuário</h2>
-      <form id="formUsuario">
+      <button type="button" class="toggle-form-btn" id="btnToggleForm">+ Cadastrar novo usuário</button>
+      <form id="formUsuario" style="display:none; margin-top: 1rem;">
         <div class="field">
           <label for="nome">Nome</label>
           <input id="nome" required>
@@ -392,18 +412,47 @@
     </section>
 
     <section>
-      <h2>Usuários</h2>
+      <h2>Usuários cadastrados</h2>
       <div class="user-list" id="userList">
         <div class="empty">Carregando usuários...</div>
       </div>
     </section>
+
   </div>
 
-  <div class="col-right">
+  <!-- ===================== TELA 2: DETALHES DO USUÁRIO ===================== -->
+  <div class="screen" id="screenDetail">
+
+    <div class="top-row">
+      <button type="button" class="back-btn" id="btnVoltar">&larr; Voltar</button>
+      <button type="button" class="btn-danger" id="btnExcluirUsuario">Excluir usuário</button>
+    </div>
+
     <section>
-      <h2>Adicionar exercício</h2>
-      <div class="selected-user-tag" id="selectedUserTag">Selecione um usuário na lista ao lado.</div>
-      <form id="formExercicio">
+      <div class="user-name-header" id="detailNome">—</div>
+      <div class="user-info-card">
+        <div class="stat">
+          <span class="stat-label">Idade</span>
+          <span class="stat-value" id="detailIdade">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Peso</span>
+          <span class="stat-value" id="detailPeso">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Altura</span>
+          <span class="stat-value" id="detailAltura">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">IMC</span>
+          <span class="stat-value" id="detailImc">—</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <button type="button" class="toggle-form-btn" id="btnToggleFormExercicio">+ Adicionar exercício</button>
+      <form id="formExercicio" style="display:none; margin-top: 1rem;">
         <div class="field">
           <label for="nomeExercicio">Nome do exercício</label>
           <input id="nomeExercicio" required>
@@ -431,17 +480,19 @@
             <option>Domingo</option>
           </select>
         </div>
-        <button type="submit" class="btn-primary" id="btnAddExercicio" disabled>Adicionar exercício</button>
+        <button type="submit" class="btn-primary">Adicionar exercício</button>
       </form>
     </section>
 
     <section>
-      <h2>Exercícios do usuário</h2>
+      <h2>Exercícios cadastrados</h2>
       <div id="exercicioList">
-        <div class="empty">Nenhum usuário selecionado.</div>
+        <div class="empty">Nenhum exercício ainda.</div>
       </div>
     </section>
+
   </div>
+
 </main>
 
 <div class="toast" id="toast"></div>
@@ -452,18 +503,37 @@ const API = 'http://127.0.0.1:5000';
 let usuarios = [];
 let usuarioSelecionadoId = null;
 
+const screenHome = document.getElementById('screenHome');
+const screenDetail = document.getElementById('screenDetail');
 const userList = document.getElementById('userList');
 const exercicioList = document.getElementById('exercicioList');
-const selectedUserTag = document.getElementById('selectedUserTag');
-const btnAddExercicio = document.getElementById('btnAddExercicio');
 const statusDot = document.getElementById('statusDot');
 const statusText = document.getElementById('statusText');
 const toast = document.getElementById('toast');
+
+const btnToggleForm = document.getElementById('btnToggleForm');
+const formUsuario = document.getElementById('formUsuario');
+const btnToggleFormExercicio = document.getElementById('btnToggleFormExercicio');
+const formExercicio = document.getElementById('formExercicio');
+const btnVoltar = document.getElementById('btnVoltar');
+const btnExcluirUsuario = document.getElementById('btnExcluirUsuario');
+
+const detailNome = document.getElementById('detailNome');
+const detailIdade = document.getElementById('detailIdade');
+const detailPeso = document.getElementById('detailPeso');
+const detailAltura = document.getElementById('detailAltura');
+const detailImc = document.getElementById('detailImc');
 
 function showToast(msg, isError) {
   toast.textContent = msg;
   toast.className = 'toast show' + (isError ? ' error' : '');
   setTimeout(() => { toast.className = 'toast'; }, 2600);
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str ?? '';
+  return div.innerHTML;
 }
 
 async function apiCall(path, options) {
@@ -495,6 +565,43 @@ async function checarApi() {
   }
 }
 
+// ---------- navegação entre telas ----------
+
+function irParaHome() {
+  usuarioSelecionadoId = null;
+  screenDetail.classList.remove('active');
+  screenHome.classList.add('active');
+  carregarUsuarios();
+}
+
+async function irParaDetalhe(userId) {
+  usuarioSelecionadoId = userId;
+  screenHome.classList.remove('active');
+  screenDetail.classList.add('active');
+  formExercicio.style.display = 'none';
+  btnToggleFormExercicio.textContent = '+ Adicionar exercício';
+  await carregarDetalheUsuario();
+  await carregarExercicios();
+}
+
+btnVoltar.addEventListener('click', irParaHome);
+
+// ---------- toggles dos formulários ----------
+
+btnToggleForm.addEventListener('click', () => {
+  const aberto = formUsuario.style.display !== 'none';
+  formUsuario.style.display = aberto ? 'none' : 'flex';
+  btnToggleForm.textContent = aberto ? '+ Cadastrar novo usuário' : '– Fechar formulário';
+});
+
+btnToggleFormExercicio.addEventListener('click', () => {
+  const aberto = formExercicio.style.display !== 'none';
+  formExercicio.style.display = aberto ? 'none' : 'flex';
+  btnToggleFormExercicio.textContent = aberto ? '+ Adicionar exercício' : '– Fechar formulário';
+});
+
+// ---------- HOME: lista de usuários ----------
+
 function renderUsuarios() {
   if (usuarios.length === 0) {
     userList.innerHTML = '<div class="empty">Nenhum usuário cadastrado ainda.</div>';
@@ -503,75 +610,92 @@ function renderUsuarios() {
   userList.innerHTML = '';
   usuarios.forEach(u => {
     const card = document.createElement('div');
-    card.className = 'user-card' + (u.id === usuarioSelecionadoId ? ' selected' : '');
+    card.className = 'user-card';
     card.innerHTML = `
       <div>
         <div class="u-name">${escapeHtml(u.nome)} ${escapeHtml(u.sobrenome)}</div>
         <div class="u-meta">${u.idade}a · ${u.peso}kg · ${u.altura}m</div>
       </div>
-      <div style="display:flex; align-items:center; gap:0.5rem;">
+      <div style="display:flex; align-items:center; gap:0.6rem;">
         <span class="imc-badge">IMC ${u.imc}</span>
-        <button class="btn-danger" data-del-user="${u.id}">Excluir</button>
+        <span class="chevron">›</span>
       </div>
     `;
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('[data-del-user]')) return;
-      selecionarUsuario(u.id);
-    });
+    card.addEventListener('click', () => irParaDetalhe(u.id));
     userList.appendChild(card);
   });
-
-  userList.querySelectorAll('[data-del-user]').forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      const id = Number(btn.dataset.delUser);
-      if (!confirm('Excluir esse usuário e todos os exercícios dele?')) return;
-      try {
-        await apiCall('/usuarios/' + id, { method: 'DELETE' });
-        showToast('Usuário excluído.');
-        if (usuarioSelecionadoId === id) {
-          usuarioSelecionadoId = null;
-        }
-        await carregarUsuarios();
-      } catch (err) {
-        showToast(err.message, true);
-      }
-    });
-  });
-}
-
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str ?? '';
-  return div.innerHTML;
 }
 
 async function carregarUsuarios() {
   try {
     usuarios = await apiCall('/usuarios');
     renderUsuarios();
-    if (usuarioSelecionadoId) {
-      await carregarExercicios();
-    }
   } catch (err) {
     userList.innerHTML = `<div class="empty">${escapeHtml(err.message)}</div>`;
   }
 }
 
-function selecionarUsuario(id) {
-  usuarioSelecionadoId = id;
-  const u = usuarios.find(x => x.id === id);
-  selectedUserTag.innerHTML = u ? `Adicionando para <strong>${escapeHtml(u.nome)} ${escapeHtml(u.sobrenome)}</strong>` : '';
-  btnAddExercicio.disabled = false;
-  renderUsuarios();
-  carregarExercicios();
+document.getElementById('formUsuario').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const payload = {
+    nome: document.getElementById('nome').value.trim(),
+    sobrenome: document.getElementById('sobrenome').value.trim(),
+    idade: Number(document.getElementById('idade').value),
+    peso: Number(document.getElementById('peso').value),
+    altura: Number(document.getElementById('altura').value),
+  };
+  try {
+    await apiCall('/usuarios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    showToast('Usuário cadastrado com sucesso!');
+    e.target.reset();
+    formUsuario.style.display = 'none';
+    btnToggleForm.textContent = '+ Cadastrar novo usuário';
+    await carregarUsuarios();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+});
+
+// ---------- TELA DE DETALHES: dados do usuário ----------
+
+function classificacaoClasse(classificacao) {
+  return classificacao === 'Peso normal' ? 'imc-normal' : 'imc-alerta';
 }
 
-async function carregarExercicios() {
-  if (!usuarioSelecionadoId) {
-    exercicioList.innerHTML = '<div class="empty">Nenhum usuário selecionado.</div>';
-    return;
+async function carregarDetalheUsuario() {
+  try {
+    const u = await apiCall('/usuarios/' + usuarioSelecionadoId);
+    detailNome.textContent = `${u.nome} ${u.sobrenome}`;
+    detailIdade.textContent = `${u.idade} anos`;
+    detailPeso.textContent = `${u.peso} kg`;
+    detailAltura.textContent = `${u.altura} m`;
+    detailImc.textContent = `${u.imc} · ${u.classificacao_imc}`;
+    detailImc.className = 'stat-value ' + classificacaoClasse(u.classificacao_imc);
+  } catch (err) {
+    showToast(err.message, true);
+    irParaHome();
   }
+}
+
+btnExcluirUsuario.addEventListener('click', async () => {
+  if (!usuarioSelecionadoId) return;
+  if (!confirm('Excluir esse usuário e todos os exercícios dele?')) return;
+  try {
+    await apiCall('/usuarios/' + usuarioSelecionadoId, { method: 'DELETE' });
+    showToast('Usuário excluído.');
+    irParaHome();
+  } catch (err) {
+    showToast(err.message, true);
+  }
+});
+
+// ---------- TELA DE DETALHES: exercícios do usuário ----------
+
+async function carregarExercicios() {
   try {
     const exercicios = await apiCall('/usuarios/' + usuarioSelecionadoId + '/exercicios');
     renderExercicios(exercicios);
@@ -620,7 +744,6 @@ function renderExercicios(exercicios) {
   exercicioList.querySelectorAll('[data-edit]').forEach(btn => {
     btn.addEventListener('click', async () => {
       const id = Number(btn.dataset.edit);
-      const atual = exercicios.find(e => e.id === id);
       const novoNome = prompt('Novo nome do exercício (deixe em branco para não mudar):', '');
       const novaSeries = prompt('Novo número de séries (deixe em branco para não mudar):', '');
       const novasRepeticoes = prompt('Novo número de repetições (deixe em branco para não mudar):', '');
@@ -649,29 +772,6 @@ function renderExercicios(exercicios) {
   });
 }
 
-document.getElementById('formUsuario').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const payload = {
-    nome: document.getElementById('nome').value.trim(),
-    sobrenome: document.getElementById('sobrenome').value.trim(),
-    idade: Number(document.getElementById('idade').value),
-    peso: Number(document.getElementById('peso').value),
-    altura: Number(document.getElementById('altura').value),
-  };
-  try {
-    await apiCall('/usuarios', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    showToast('Usuário cadastrado.');
-    e.target.reset();
-    await carregarUsuarios();
-  } catch (err) {
-    showToast(err.message, true);
-  }
-});
-
 document.getElementById('formExercicio').addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!usuarioSelecionadoId) return;
@@ -687,13 +787,17 @@ document.getElementById('formExercicio').addEventListener('submit', async (e) =>
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    showToast('Exercício adicionado.');
+    showToast('Exercício adicionado com sucesso!');
     e.target.reset();
+    formExercicio.style.display = 'none';
+    btnToggleFormExercicio.textContent = '+ Adicionar exercício';
     await carregarExercicios();
   } catch (err) {
     showToast(err.message, true);
   }
 });
+
+// ---------- inicialização ----------
 
 (async function init() {
   const ok = await checarApi();

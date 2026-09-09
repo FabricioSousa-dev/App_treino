@@ -15,7 +15,7 @@ from app.models import (
 from app.exercise import formatar_nome_exercicio, validar_series, validar_nome_exercicio, validar_dia, formatar_dia, validar_repeticoes
 from app.user import calcular_imc, classificar_imc, validar_idade, validar_peso, validar_altura
 
-install()  # Habilita o traceback bonito do Rich
+install() 
 def exibir_menu():
     print("\n + " + "=" * 30)
     print("🏋️  SISTEMA APP TREINO 🏋️")
