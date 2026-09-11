@@ -32,7 +32,6 @@ def criar_tabelas():
         )
     ''')
 
-    # migração: adiciona colunas se o banco já existia sem elas
     cursor.execute("PRAGMA table_info(exercises)")
     colunas = [linha[1] for linha in cursor.fetchall()]
     if 'dia' not in colunas:
